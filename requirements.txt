@@ -1,0 +1,8 @@
+# Core LangGraph and Gemini dependencies
+langchain-core>=0.3.0
+langchain-google-genai>=2.0.0
+langgraph>=0.4.0
+
+# Environment and HTTP requests
+python-dotenv==1.0.0
+requests>=2.31.0 
