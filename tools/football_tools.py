@@ -213,23 +213,11 @@ def create_football_tools(api_client, llm=None):
             Format your response as: "MVP: [Player Name] - [Detailed explanation of why they deserve MVP]"
             """
             
-            if llm:
-                # Use model-agnostic prediction method
-                if hasattr(llm, 'invoke'):
-                    response = llm.invoke(prompt)
-                    if hasattr(response, 'content'):
-                        response_text = response.content
-                    else:
-                        response_text = str(response)
-                elif hasattr(llm, 'predict'):
-                    response_text = llm.predict(prompt)
-                else:
-                    # Fallback for different LLM interfaces
-                    response_text = str(llm(prompt))
-                
-                return f"{response_text}\n\n📊 Analysis based on {filtered_players} players (filtered out {total_players - filtered_players} who played ≤5 minutes)"
-            else:
-                return f"Player statistics ready for analysis. Found {filtered_players} players with meaningful playing time."
+            # Use Gemini 1.5 Flash to determine MVP
+            response = llm.invoke(prompt)
+            response_text = response.content
+            
+            return f"{response_text}\n\n📊 Analysis based on {filtered_players} players (filtered out {total_players - filtered_players} who played ≤5 minutes)"
                 
         except Exception as e:
             return f"Error analyzing MVP: {str(e)}"
